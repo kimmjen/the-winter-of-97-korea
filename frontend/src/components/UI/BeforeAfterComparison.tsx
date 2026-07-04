@@ -42,14 +42,14 @@ const BeforeAfterComparison: React.FC = () => {
         status: 'danger'
       },
       current: {
-        value: 1350,
+        value: 1467,
         unit: '원/USD',
         displayUnit: '원',
-        description: '안정적 수준 유지',
+        description: '최근 환율 상승세',
         status: 'success'
       },
-      improvement: '20% 개선된 안정성',
-      improvementPercent: 20,
+      improvement: '안정적 관리 중',
+      improvementPercent: 13,
       category: 'exchange'
     },
     {
@@ -63,14 +63,14 @@ const BeforeAfterComparison: React.FC = () => {
         status: 'danger'
       },
       current: {
-        value: 2.8,
+        value: 2.6,
         unit: '%',
         displayUnit: '%',
-        description: 'OECD 평균 이하',
+        description: '완전 고용 수준',
         status: 'success'
       },
-      improvement: '59% 감소한 건전한 고용',
-      improvementPercent: 59,
+      improvement: '62% 감소한 건전한 고용',
+      improvementPercent: 62,
       category: 'employment'
     },
     {
@@ -84,14 +84,14 @@ const BeforeAfterComparison: React.FC = () => {
         status: 'danger'
       },
       current: {
-        value: 420,
+        value: 428.8,
         unit: 'B USD',
         displayUnit: 'B',
         description: '세계 9위 보유 수준',
         status: 'success'
       },
-      improvement: '4,600% 증가한 방어막',
-      improvementPercent: 4600,
+      improvement: '4,700% 증가한 방어막',
+      improvementPercent: 4700,
       category: 'reserves'
     }
   ];
@@ -143,7 +143,7 @@ const BeforeAfterComparison: React.FC = () => {
         {/* 애니메이션 패턴 */}
         <div className="absolute inset-0 opacity-30">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-200/20 to-purple-200/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-pink-200/20 to-orange-200/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-pink-200/20 to-orange-200/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
         </div>
 
         {/* 격자 패턴 */}
@@ -179,11 +179,10 @@ const BeforeAfterComparison: React.FC = () => {
             <div className="flex">
               <motion.button
                 onClick={() => handleYearChange('crisis')}
-                className={`relative px-8 py-4 rounded-xl font-bold text-lg transition-all duration-500 ${
-                  selectedYear === 'crisis'
+                className={`relative px-8 py-4 rounded-xl font-bold text-lg transition-all duration-500 ${selectedYear === 'crisis'
                     ? 'text-white shadow-lg'
                     : 'text-gray-600 hover:text-red-600'
-                }`}
+                  }`}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -202,11 +201,10 @@ const BeforeAfterComparison: React.FC = () => {
 
               <motion.button
                 onClick={() => handleYearChange('current')}
-                className={`relative px-8 py-4 rounded-xl font-bold text-lg transition-all duration-500 ${
-                  selectedYear === 'current'
+                className={`relative px-8 py-4 rounded-xl font-bold text-lg transition-all duration-500 ${selectedYear === 'current'
                     ? 'text-white shadow-lg'
                     : 'text-gray-600 hover:text-green-600'
-                }`}
+                  }`}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -244,9 +242,8 @@ const BeforeAfterComparison: React.FC = () => {
                 onHoverEnd={() => setHoveredCard(null)}
               >
                 {/* 카드 글로우 효과 */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${categoryConfig.bgGradient} rounded-3xl blur-xl transition-all duration-500 ${
-                  hoveredCard === index ? 'opacity-60 scale-105' : 'opacity-30'
-                }`}></div>
+                <div className={`absolute inset-0 bg-gradient-to-br ${categoryConfig.bgGradient} rounded-3xl blur-xl transition-all duration-500 ${hoveredCard === index ? 'opacity-60 scale-105' : 'opacity-30'
+                  }`}></div>
 
                 <div className={`relative bg-white/80 backdrop-blur-lg rounded-3xl p-8 border-2 ${categoryConfig.borderColor} transition-all duration-500 hover:shadow-2xl ${categoryConfig.glowColor} group-hover:scale-[1.02]`}>
                   {/* 헤더 섹션 */}
@@ -256,9 +253,8 @@ const BeforeAfterComparison: React.FC = () => {
                     </div>
 
                     <div className="text-right">
-                      <div className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${
-                        isCurrentYear ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                      }`}>
+                      <div className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${isCurrentYear ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                        }`}>
                         {isCurrentYear ? '✅ 개선됨' : '🚨 위기'}
                       </div>
                     </div>
@@ -323,9 +319,8 @@ const BeforeAfterComparison: React.FC = () => {
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           transition={{ delay: 0.3, duration: 0.5 }}
-                          className={`text-sm font-medium ${
-                            isCurrentYear ? 'text-green-700' : 'text-red-700'
-                          }`}
+                          className={`text-sm font-medium ${isCurrentYear ? 'text-green-700' : 'text-red-700'
+                            }`}
                         >
                           {currentData.description}
                         </motion.p>
@@ -374,16 +369,16 @@ const BeforeAfterComparison: React.FC = () => {
                             <div className="font-semibold text-red-600">1997년</div>
                             <div className="text-gray-600">
                               {data.category === 'exchange' ? `₩${data.crisis.value.toLocaleString()}` :
-                               data.category === 'reserves' ? `$${data.crisis.value}B` :
-                               `${data.crisis.value}%`}
+                                data.category === 'reserves' ? `$${data.crisis.value}B` :
+                                  `${data.crisis.value}%`}
                             </div>
                           </div>
                           <div className="text-center">
                             <div className="font-semibold text-green-600">2025년</div>
                             <div className="text-gray-600">
                               {data.category === 'exchange' ? `₩${data.current.value.toLocaleString()}` :
-                               data.category === 'reserves' ? `$${data.current.value}B` :
-                               `${data.current.value}%`}
+                                data.category === 'reserves' ? `$${data.current.value}B` :
+                                  `${data.current.value}%`}
                             </div>
                           </div>
                         </div>

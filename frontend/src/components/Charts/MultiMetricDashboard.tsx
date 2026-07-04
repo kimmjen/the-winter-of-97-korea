@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import {
   ComposedChart,
@@ -49,7 +49,8 @@ const MultiMetricDashboard: React.FC<MultiMetricDashboardProps> = ({ data }) => 
       unit: '%',
       color: '#22c55e',
       icon: <TrendingUp className="w-4 h-4" />,
-      type: 'line' as const
+      type: 'line' as const,
+      yAxisId: 'left'
     },
     {
       key: 'inflation_rate',
@@ -57,7 +58,8 @@ const MultiMetricDashboard: React.FC<MultiMetricDashboardProps> = ({ data }) => 
       unit: '%',
       color: '#ef4444',
       icon: <Percent className="w-4 h-4" />,
-      type: 'line' as const
+      type: 'line' as const,
+      yAxisId: 'left'
     },
     {
       key: 'base_interest_rate',
@@ -65,7 +67,8 @@ const MultiMetricDashboard: React.FC<MultiMetricDashboardProps> = ({ data }) => 
       unit: '%',
       color: '#3b82f6',
       icon: <BarChart3 className="w-4 h-4" />,
-      type: 'line' as const
+      type: 'line' as const,
+      yAxisId: 'left'
     },
     {
       key: 'kospi_index',
@@ -73,7 +76,8 @@ const MultiMetricDashboard: React.FC<MultiMetricDashboardProps> = ({ data }) => 
       unit: 'pt',
       color: '#8b5cf6',
       icon: <Activity className="w-4 h-4" />,
-      type: 'bar' as const
+      type: 'bar' as const,
+      yAxisId: 'right'
     },
     {
       key: 'export_billion',
@@ -81,7 +85,8 @@ const MultiMetricDashboard: React.FC<MultiMetricDashboardProps> = ({ data }) => 
       unit: '억$',
       color: '#06b6d4',
       icon: <DollarSign className="w-4 h-4" />,
-      type: 'bar' as const
+      type: 'bar' as const,
+      yAxisId: 'left'
     },
     {
       key: 'import_billion',
@@ -89,7 +94,8 @@ const MultiMetricDashboard: React.FC<MultiMetricDashboardProps> = ({ data }) => 
       unit: '억$',
       color: '#f59e0b',
       icon: <DollarSign className="w-4 h-4" />,
-      type: 'bar' as const
+      type: 'bar' as const,
+      yAxisId: 'left'
     },
     {
       key: 'household_debt_ratio',
@@ -97,7 +103,8 @@ const MultiMetricDashboard: React.FC<MultiMetricDashboardProps> = ({ data }) => 
       unit: '%',
       color: '#ec4899',
       icon: <Percent className="w-4 h-4" />,
-      type: 'line' as const
+      type: 'line' as const,
+      yAxisId: 'left'
     },
     {
       key: 'corporate_debt_ratio',
@@ -105,11 +112,12 @@ const MultiMetricDashboard: React.FC<MultiMetricDashboardProps> = ({ data }) => 
       unit: '%',
       color: '#f97316',
       icon: <Percent className="w-4 h-4" />,
-      type: 'line' as const
+      type: 'line' as const,
+      yAxisId: 'left'
     }
   ];
 
-  const getFilteredData = () => {
+  const filteredData = useMemo(() => {
     switch (timeRange) {
       case 'crisis':
         return data.filter(item => {
@@ -124,17 +132,17 @@ const MultiMetricDashboard: React.FC<MultiMetricDashboardProps> = ({ data }) => 
       default:
         return data;
     }
-  };
+  }, [data, timeRange]);
 
-  const toggleMetric = (metricKey: string) => {
+  const toggleMetric = useCallback((metricKey: string) => {
     setSelectedMetrics(prev =>
       prev.includes(metricKey)
         ? prev.filter(m => m !== metricKey)
         : [...prev, metricKey]
     );
-  };
+  }, []);
 
-  const getRadarData = () => {
+  const radarData = useMemo(() => {
     const crisisData = data.find(item => item.date === '1997-12');
     const currentData = data[data.length - 1];
 
@@ -172,10 +180,7 @@ const MultiMetricDashboard: React.FC<MultiMetricDashboardProps> = ({ data }) => 
         fullMark: 100
       }
     ];
-  };
-
-  const filteredData = getFilteredData();
-  const radarData = getRadarData();
+  }, [data]);
 
   return (
     <section className="bg-gradient-to-br from-slate-50 to-slate-100 py-20">
@@ -213,12 +218,11 @@ const MultiMetricDashboard: React.FC<MultiMetricDashboardProps> = ({ data }) => 
                 ].map(option => (
                   <button
                     key={option.value}
-                    onClick={() => setTimeRange(option.value as any)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                      timeRange === option.value
-                        ? 'bg-blue-500 text-white shadow-lg'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                    }`}
+                    onClick={() => setTimeRange(option.value as 'all' | 'crisis' | 'recovery')}
+                    className={`px-4 py-2 rounded-lg font-medium transition-all ${timeRange === option.value
+                      ? 'bg-blue-500 text-white shadow-lg'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      }`}
                   >
                     {option.label}
                   </button>
@@ -237,11 +241,10 @@ const MultiMetricDashboard: React.FC<MultiMetricDashboardProps> = ({ data }) => 
                   <button
                     key={metric.key}
                     onClick={() => toggleMetric(metric.key)}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                      selectedMetrics.includes(metric.key)
-                        ? 'text-white shadow-lg'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                    }`}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${selectedMetrics.includes(metric.key)
+                      ? 'text-white shadow-lg'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      }`}
                     style={{
                       backgroundColor: selectedMetrics.includes(metric.key) ? metric.color : undefined
                     }}
@@ -284,7 +287,7 @@ const MultiMetricDashboard: React.FC<MultiMetricDashboardProps> = ({ data }) => 
                   <YAxis yAxisId="right" orientation="right" />
                   <Tooltip
                     formatter={(value: any, name: string) => {
-                      const metric = metrics.find(m => m.key === name);
+                      const metric = metrics.find(m => m.name === name);
                       return [`${Number(value).toLocaleString()}${metric?.unit || ''}`, metric?.name || name];
                     }}
                     labelFormatter={(label) => {
@@ -301,7 +304,7 @@ const MultiMetricDashboard: React.FC<MultiMetricDashboardProps> = ({ data }) => 
                     return metric.type === 'line' ? (
                       <Line
                         key={metricKey}
-                        yAxisId={metricKey === 'kospi_index' ? 'right' : 'left'}
+                        yAxisId={metric.yAxisId}
                         type="monotone"
                         dataKey={metricKey}
                         stroke={metric.color}
@@ -312,7 +315,7 @@ const MultiMetricDashboard: React.FC<MultiMetricDashboardProps> = ({ data }) => 
                     ) : (
                       <Bar
                         key={metricKey}
-                        yAxisId={metricKey === 'kospi_index' ? 'right' : 'left'}
+                        yAxisId={metric.yAxisId}
                         dataKey={metricKey}
                         fill={metric.color}
                         name={metric.name}

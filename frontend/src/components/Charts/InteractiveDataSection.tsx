@@ -124,7 +124,7 @@ const InteractiveDataSection: React.FC<InteractiveDataSectionProps> = React.memo
     return data.slice(0, Math.max(1, currentIndex + 1));
   }, [data, isInitialized, currentIndex]);
 
-  const getMetricValue = useCallback((item: any, metricKey: string) => {
+  const getMetricValue = useCallback((item: IExtendedEconomicData, metricKey: string) => {
     return item[metricKey as keyof IExtendedEconomicData];
   }, []);
 
@@ -302,11 +302,10 @@ const InteractiveDataSection: React.FC<InteractiveDataSectionProps> = React.memo
               <motion.button
                 key={metric.key}
                 onClick={() => setSelectedMetric(metric.key)}
-                className={`flex items-center gap-3 px-6 py-4 rounded-2xl border transition-all duration-500 ${
-                  selectedMetric === metric.key
-                    ? 'bg-white/20 border-white/30 text-white shadow-lg'
-                    : 'bg-white/5 border-white/10 text-blue-200 hover:bg-white/10'
-                }`}
+                className={`flex items-center gap-3 px-6 py-4 rounded-2xl border transition-all duration-500 ${selectedMetric === metric.key
+                  ? 'bg-white/20 border-white/30 text-white shadow-lg'
+                  : 'bg-white/5 border-white/10 text-blue-200 hover:bg-white/10'
+                  }`}
                 whileHover={{
                   scale: 1.05,
                   boxShadow: "0 10px 30px rgba(255, 255, 255, 0.1)"
@@ -487,9 +486,9 @@ const InteractiveDataSection: React.FC<InteractiveDataSectionProps> = React.memo
                   <AreaChart data={getCurrentData()}>
                     <defs>
                       <linearGradient id={`gradient-${selectedMetric}`} x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor={selectedMetricData?.color} stopOpacity={0.4}/>
-                        <stop offset="50%" stopColor={selectedMetricData?.color} stopOpacity={0.2}/>
-                        <stop offset="95%" stopColor={selectedMetricData?.color} stopOpacity={0.05}/>
+                        <stop offset="5%" stopColor={selectedMetricData?.color} stopOpacity={0.4} />
+                        <stop offset="50%" stopColor={selectedMetricData?.color} stopOpacity={0.2} />
+                        <stop offset="95%" stopColor={selectedMetricData?.color} stopOpacity={0.05} />
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" stroke="#ffffff15" />
@@ -689,8 +688,8 @@ const InteractiveDataSection: React.FC<InteractiveDataSectionProps> = React.memo
                     <span className="text-sm text-red-200">1997년 최악</span>
                     <span className="font-bold text-red-300">
                       {selectedMetric === 'KRW_USD' ? '₩1,695' :
-                       selectedMetric === 'unemployment_rate' ? '7.1%' :
-                       selectedMetric === 'base_interest_rate' ? '30%' : '---'}
+                        selectedMetric === 'unemployment_rate' ? '7.1%' :
+                          selectedMetric === 'base_interest_rate' ? '30%' : '---'}
                     </span>
                   </div>
 
@@ -705,8 +704,8 @@ const InteractiveDataSection: React.FC<InteractiveDataSectionProps> = React.memo
                     <span className="text-sm text-green-200">2025년 현재</span>
                     <span className="font-bold text-green-300">
                       {selectedMetric === 'KRW_USD' ? '₩1,342' :
-                       selectedMetric === 'unemployment_rate' ? '2.8%' :
-                       selectedMetric === 'fx_reserves_billion' ? '$422B' : '---'}
+                        selectedMetric === 'unemployment_rate' ? '2.8%' :
+                          selectedMetric === 'fx_reserves_billion' ? '$422B' : '---'}
                     </span>
                   </div>
                 </div>
